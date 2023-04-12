@@ -103,8 +103,13 @@ class Datasets():
         #
         # ==========================================================
 
-        # self.mean = your code
-        # self.std = your code
+        urrent = np.zeros(data_sample[0].shape)
+        for i in range(len(data_sample) - 1):
+            current = np.add(data_sample[i], data_sample[i + 1])
+            
+        self.mean = current / len(data_sample)
+
+        self.std = np.std(data_sample, axis=(0))
 
         # ==========================================================
 
@@ -137,6 +142,8 @@ class Datasets():
         # =============================================================
 
         img = img      # replace this code
+        #img = (img - self.mean) / self.std
+        #img =  img / np.linalg.norm(img)
 
         # =============================================================
 
@@ -209,6 +216,12 @@ class Datasets():
             # ============================================================
 
             data_gen = tf.keras.preprocessing.image.ImageDataGenerator(
+                rotation_range=20,
+                rescale=1./255,
+                brightness_range=[20,50],
+                samplewise_center=True,
+                samplewise_std_normalization=True,
+                #horizontal_flip=True,
                 preprocessing_function=self.preprocess_fn)
 
             # ============================================================

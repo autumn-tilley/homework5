@@ -21,6 +21,8 @@ class YourModel(tf.keras.Model):
         # TODO: Select an optimizer for your network (see the documentation
         #       for tf.keras.optimizers)
 
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate=hp.learning_rate)
+
         # TASK 1
         # TODO: Build your own convolutional neural network with a 
         #       15 million parameter budget. The input image will be 
@@ -56,6 +58,12 @@ class YourModel(tf.keras.Model):
 
         self.architecture = [
               ## Add layers here separated by commas.
+              tf.keras.layers.Conv2D(10,5, activation="relu"),
+              tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=2),
+              tf.keras.layers.Flatten(),
+              tf.keras.layers.Dense(32, activation='relu'),
+              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dense(hp.num_classes, activation='softmax'),
         ]
 
     def call(self, x):
@@ -74,7 +82,8 @@ class YourModel(tf.keras.Model):
         # TODO: Select a loss function for your network 
         #       (see the documentation for tf.keras.losses)
 
-        pass
+        scce = tf.keras.losses.SparseCategoricalCrossentropy()
+        return scce(labels, predictions)
 
 
 class VGGModel(tf.keras.Model):
@@ -85,7 +94,7 @@ class VGGModel(tf.keras.Model):
         # TODO: Select an optimizer for your network (see the documentation
         #       for tf.keras.optimizers)
 
-        self.optimizer = None
+        self.optimizer = tf.keras.optimizers.Adam(learning_rate=hp.learning_rate)
 
         # Don't change the below:
 
@@ -133,9 +142,17 @@ class VGGModel(tf.keras.Model):
         #       pretrained VGG16 weights into place so that only the classificaiton
         #       head is trained.
 
+        self.vgg16.trainable = False
+
         # TODO: Write a classification head for our 15-scene classification task.
 
-        self.head = []
+        self.head = [
+            tf.keras.layers.Flatten(),
+              tf.keras.layers.Dense(4096, activation='relu'),
+              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dense(4096, activation='relu'),
+              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dense(1000, activation='softmax')]
 
         # Don't change the below:
         self.vgg16 = tf.keras.Sequential(self.vgg16, name="vgg_base")
@@ -159,4 +176,5 @@ class VGGModel(tf.keras.Model):
         #       Read the documentation carefully, some might not work with our 
         #       model!
 
-        pass
+        cce =  tf.keras.losses.SparseCategoricalCrossentropy()
+        return cce(labels, predictions)
