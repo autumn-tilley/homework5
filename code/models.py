@@ -65,13 +65,15 @@ class YourModel(tf.keras.Model):
               #tf.keras.layers.Dense(32, activation='sigmoid'),
               #tf.keras.layers.Dropout(0.8),
               #tf.keras.layers.Dense(hp.num_classes, activation='softmax')
-              Conv2D(10, 3, 1, padding="same",
+              Conv2D(10, 3, 1,
                    activation="relu"),
-              Conv2D(10, 3, 1, padding="same",
+              Conv2D(10, 3, 1,
                    activation="relu"),
-              MaxPool2D(2, name="block2_pool"),
+              tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=None),
               tf.keras.layers.Flatten(),
-              tf.keras.layers.Dense(64, activation='sigmoid'),
+              #tf.keras.layers.Dense(64, activation='relu'),
+              #tf.keras.layers.Dropout(0.6),
+              tf.keras.layers.Dense(64, activation='relu'),
               tf.keras.layers.Dropout(0.7),
               tf.keras.layers.Dense(hp.num_classes, activation='softmax')
               #tf.keras.layers.Activation('softmax')

@@ -107,7 +107,9 @@ class Datasets():
         for i in range(len(data_sample) - 1):
             current = np.add(data_sample[i], data_sample[i + 1])
             
-        self.mean = current / len(data_sample)
+        #self.mean = current / len(data_sample)
+
+        self.mean = np.mean(data_sample, axis=(0))
 
         self.std = np.std(data_sample, axis=(0))
 
@@ -142,9 +144,9 @@ class Datasets():
         # =============================================================
 
         img = img      # replace this code
-        #img = (img - self.mean) / self.std
-        #img = (img - np.amin(img)) / (np.amax(img) - np.amin(img))
-        
+        img = (img - self.mean) / self.std
+        img = (img - np.amin(img)) / (np.amax(img) - np.amin(img))
+
         #img =  img / np.linalg.norm(img)
 
         # =============================================================
