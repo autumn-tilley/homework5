@@ -155,16 +155,17 @@ class VGGModel(tf.keras.Model):
         #       pretrained VGG16 weights into place so that only the classificaiton
         #       head is trained.
 
-        self.vgg16.trainable = False
+        for i in self.vgg16:
+          i.trainable = False
 
         # TODO: Write a classification head for our 15-scene classification task.
 
         self.head = [
             tf.keras.layers.Flatten(),
               tf.keras.layers.Dense(4096, activation='relu'),
-              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dropout(0.7),
               tf.keras.layers.Dense(4096, activation='relu'),
-              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dropout(0.7),
               tf.keras.layers.Dense(1000, activation='softmax')]
 
         # Don't change the below:
