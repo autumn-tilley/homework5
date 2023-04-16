@@ -221,7 +221,10 @@ class Datasets():
 
             data_gen = tf.keras.preprocessing.image.ImageDataGenerator(
                 #zoom_range=[0.5,1.0],
-                #rescale=1./255,
+                #horizontal_flip=True,
+                #zca_whitening=True,
+                #rotation_range=30, fill_mode='nearest',
+                rescale=.9,
                 brightness_range=[0,1],
                 preprocessing_function=self.preprocess_fn)
 

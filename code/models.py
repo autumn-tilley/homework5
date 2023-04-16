@@ -65,11 +65,17 @@ class YourModel(tf.keras.Model):
               #tf.keras.layers.Dense(32, activation='sigmoid'),
               #tf.keras.layers.Dropout(0.8),
               #tf.keras.layers.Dense(hp.num_classes, activation='softmax')
-              Conv2D(10, 3, 1,
+              Conv2D(16, 3, padding="same",
                    activation="relu"),
-              Conv2D(10, 3, 1,
+              Conv2D(16, 3, padding="same",
                    activation="relu"),
-              tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=None),
+              MaxPool2D(2, name="block1_pool"),
+              #tf.keras.layers.MaxPooling2D(pool_size=(3, 3), strides=2),
+              #Conv2D(10, 5,
+               #    activation="relu"),
+              #Conv2D(10, 5,
+               #    activation="relu"),
+              #tf.keras.layers.MaxPooling2D(pool_size=(2, 2), strides=1),
               tf.keras.layers.Flatten(),
               #tf.keras.layers.Dense(64, activation='relu'),
               #tf.keras.layers.Dropout(0.6),
@@ -162,11 +168,11 @@ class VGGModel(tf.keras.Model):
 
         self.head = [
             tf.keras.layers.Flatten(),
-              tf.keras.layers.Dense(4096, activation='relu'),
-              tf.keras.layers.Dropout(0.7),
-              tf.keras.layers.Dense(4096, activation='relu'),
-              tf.keras.layers.Dropout(0.7),
-              tf.keras.layers.Dense(1000, activation='softmax')]
+              tf.keras.layers.Dense(512, activation='relu'),
+              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dense(512, activation='relu'),
+              tf.keras.layers.Dropout(0.5),
+              tf.keras.layers.Dense(15, activation='softmax')]
 
         # Don't change the below:
         self.vgg16 = tf.keras.Sequential(self.vgg16, name="vgg_base")
